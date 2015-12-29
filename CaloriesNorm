@@ -1,0 +1,11 @@
+
+public class CaloriesNorm {
+	double norm;
+	public CaloriesNorm(double weight, double height,double age, int gender, double lifestyle){
+		norm = lifestyle*10*weight+6.25*height-5*age+gender;
+		
+		}
+   public double get(){
+	   return norm;
+   }
+}
