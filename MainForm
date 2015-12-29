@@ -1,0 +1,227 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+
+import javax.swing.JTextField;
+import java.awt.GridLayout;
+
+import javax.swing.ButtonGroup;
+import javax.swing.SwingConstants;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollBar;
+import javax.swing.JTextPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class SportRes {
+
+	private JFrame frame;
+	private JTextField userheight;
+	private JTextField userweight;
+	private JTextField txtCcalsPerDay;
+	private JTextField usercal;
+	private JTextField txtHeight;
+	private JTextField txtWeight;
+	private JRadioButton looseweight;
+	private JRadioButton saveweight;
+	private JScrollBar scrollBar;
+	private JTextPane textPane;
+	private JTextField userage;
+	private JTextField txtAge;
+	private JRadioButton female;
+	private JRadioButton male;
+	final int malecof = 5;
+	final int femalecof = -161;
+	final double loosecof = 1.2;
+	final double savecof = 1.550;
+	CaloriesNorm caloriesnorm;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SportRes window = new SportRes();
+					window.frame.setVisible(true);
+					window.showCallories();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	void showCallories() {
+		if (male.isSelected()) {
+			if (looseweight.isSelected()) {
+				caloriesnorm = new CaloriesNorm(
+						Double.parseDouble(userweight.getText()),
+						Double.parseDouble(userheight.getText()),
+						Double.parseDouble(userage.getText()), malecof,
+						loosecof);
+			} else if (saveweight.isSelected()) {
+				caloriesnorm = new CaloriesNorm(
+						Double.parseDouble(userweight.getText()),
+						Double.parseDouble(userheight.getText()),
+						Double.parseDouble(userage.getText()), malecof, savecof);
+				}
+			} else if (female.isSelected()) {
+				if (looseweight.isSelected()) {
+					caloriesnorm = new CaloriesNorm(
+							Double.parseDouble(userweight.getText()),
+							Double.parseDouble(userheight.getText()),
+							Double.parseDouble(userage.getText()), femalecof,
+							loosecof);
+				} else if (saveweight.isSelected()) {
+					caloriesnorm = new CaloriesNorm(
+							Double.parseDouble(userweight.getText()),
+							Double.parseDouble(userheight.getText()),
+							Double.parseDouble(userage.getText()), femalecof,
+							savecof);
+				}
+			}
+		if (caloriesnorm!=null)
+		usercal.setText(Double.toString(caloriesnorm.get()));
+		}
+
+	public SportRes() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 600, 400);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.NORTH);
+		panel.setLayout(new GridLayout(2, 0, 0, 0));
+
+		txtHeight = new JTextField();
+		txtHeight.setHorizontalAlignment(SwingConstants.CENTER);
+		txtHeight.setText("Height");
+		txtHeight.setEditable(false);
+		panel.add(txtHeight);
+		txtHeight.setColumns(10);
+
+		txtWeight = new JTextField();
+		txtWeight.setHorizontalAlignment(SwingConstants.CENTER);
+		txtWeight.setText("Weight");
+		txtWeight.setEditable(false);
+		panel.add(txtWeight);
+		txtWeight.setColumns(10);
+
+		ButtonGroup weightgroup = new ButtonGroup();
+		ButtonGroup gendergroup = new ButtonGroup();
+
+		txtAge = new JTextField();
+		txtAge.setEditable(false);
+		txtAge.setHorizontalAlignment(SwingConstants.CENTER);
+		txtAge.setText("Age");
+		panel.add(txtAge);
+		txtAge.setColumns(10);
+
+		female = new JRadioButton("Female");
+		female.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		panel.add(female);
+		gendergroup.add(female);
+
+		looseweight = new JRadioButton("Loose weight");
+		looseweight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		panel.add(looseweight);
+		weightgroup.add(looseweight);
+
+		txtCcalsPerDay = new JTextField();
+		txtCcalsPerDay.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCcalsPerDay.setText("ccals per day:");
+		txtCcalsPerDay.setEditable(false);
+		panel.add(txtCcalsPerDay);
+		txtCcalsPerDay.setColumns(10);
+
+		userheight = new JTextField();
+		userheight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		userheight.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(userheight);
+		userheight.setColumns(10);
+
+		userweight = new JTextField();
+		userweight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		userweight.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(userweight);
+		userweight.setColumns(10);
+
+		userage = new JTextField();
+		userage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		userage.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(userage);
+		userage.setColumns(10);
+
+		male = new JRadioButton("Male");
+		male.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		panel.add(male);
+		gendergroup.add(male);
+
+		saveweight = new JRadioButton("Save weight");
+		saveweight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		panel.add(saveweight);
+		weightgroup.add(saveweight);
+
+		usercal = new JTextField();
+		usercal.setHorizontalAlignment(SwingConstants.CENTER);
+		usercal.setEditable(false);
+		panel.add(usercal);
+		usercal.setColumns(10);
+
+		JPanel panel_1 = new JPanel();
+		frame.getContentPane().add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new BorderLayout(0, 0));
+
+		scrollBar = new JScrollBar();
+		panel_1.add(scrollBar, BorderLayout.EAST);
+
+		textPane = new JTextPane();
+		panel_1.add(textPane, BorderLayout.CENTER);
+
+		JPanel panel_2 = new JPanel();
+		frame.getContentPane().add(panel_2, BorderLayout.SOUTH);
+	}
+
+}
