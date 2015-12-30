@@ -1,0 +1,13 @@
+public class CaloriesBurned {
+
+	double caloriesburned;
+
+	public CaloriesBurned(double activity, int time) {
+		caloriesburned = time * activity;
+
+	}
+
+	public double get() {
+		return caloriesburned;
+	}
+}
