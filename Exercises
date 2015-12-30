@@ -1,0 +1,242 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JSpinner;
+import javax.swing.ButtonGroup;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JRadioButton;
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Exercises {
+
+	private JFrame frame;
+	private JTextField txtChooseActivity;
+	private JTextField txtAdjustTime;
+	String[] exercise = { "Light run = -", "Fast run = -", "Aerobics = -",
+			"Swimming = -", "Walking = -", "Sleeping = -", "Having a rest = -",
+			"Sport games = -", "Cycling = -", "Dancing = -" };
+	CaloriesBurned cb;
+	public final double lightrun = 6.5;
+	public final double hardrun = 12.3;
+	public final double aerobics = 7.5;
+	public final double swimming = 7.5;
+	public final double walking = 2.13;
+	public final double sleeping = 0.97;
+	public final double doingnothing = 1.5;
+	public final double activesport = 5.6;
+	public final double cycling = 8.5;
+	public final double dancing = 5.1;
+	public JButton btnAdd;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Exercises window = new Exercises();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Exercises() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.getContentPane().setLayout(null);
+
+		JSpinner spinner = new JSpinner();
+		spinner.setBounds(290, 107, 49, 20);
+		frame.getContentPane().add(spinner);
+
+		txtChooseActivity = new JTextField();
+		txtChooseActivity.setEditable(false);
+		txtChooseActivity.setHorizontalAlignment(SwingConstants.CENTER);
+		txtChooseActivity.setText("Choose activity:");
+		txtChooseActivity.setBounds(32, 29, 208, 20);
+		frame.getContentPane().add(txtChooseActivity);
+		txtChooseActivity.setColumns(10);
+
+		txtAdjustTime = new JTextField();
+		txtAdjustTime.setText("Adjust time");
+		txtAdjustTime.setHorizontalAlignment(SwingConstants.CENTER);
+		txtAdjustTime.setEditable(false);
+		txtAdjustTime.setBounds(290, 76, 103, 20);
+		frame.getContentPane().add(txtAdjustTime);
+		txtAdjustTime.setColumns(10);
+
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Having a rest");
+		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cb = new CaloriesBurned(doingnothing, (int) spinner.getValue());
+			}
+		});
+		rdbtnNewRadioButton
+				.setToolTipText("(e.g. sitting, laying, watching TV etc.)");
+		rdbtnNewRadioButton.setBounds(129, 82, 109, 23);
+		frame.getContentPane().add(rdbtnNewRadioButton);
+
+		JRadioButton rdbtnAerobics = new JRadioButton("Aerobics");
+		rdbtnAerobics.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cb = new CaloriesBurned(aerobics, (int) spinner.getValue());
+			}
+		});
+		rdbtnAerobics.setBounds(6, 106, 109, 23);
+		frame.getContentPane().add(rdbtnAerobics);
+
+		JRadioButton rdbtnPlayingActiveSport = new JRadioButton("Sport games");
+		rdbtnPlayingActiveSport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cb = new CaloriesBurned(activesport, (int) spinner.getValue());
+			}
+		});
+		rdbtnPlayingActiveSport
+				.setToolTipText("(e.g. basketball, bowling, tennis etc.)");
+		rdbtnPlayingActiveSport.setBounds(129, 106, 109, 23);
+		frame.getContentPane().add(rdbtnPlayingActiveSport);
+
+		JRadioButton rdbtnSwimming = new JRadioButton("Swimming");
+		rdbtnSwimming.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cb = new CaloriesBurned(swimming, (int) spinner.getValue());
+			}
+		});
+		rdbtnSwimming.setBounds(6, 130, 109, 23);
+		frame.getContentPane().add(rdbtnSwimming);
+
+		JRadioButton rdbtnSleeping = new JRadioButton("Sleeping");
+		rdbtnSleeping.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cb = new CaloriesBurned(sleeping, (int) spinner.getValue());
+			}
+		});
+		rdbtnSleeping.setBounds(129, 56, 109, 23);
+		frame.getContentPane().add(rdbtnSleeping);
+
+		JRadioButton rdbtnDancing = new JRadioButton("Dancing");
+		rdbtnDancing.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cb = new CaloriesBurned(dancing, (int) spinner.getValue());
+			}
+		});
+		rdbtnDancing.setBounds(129, 156, 109, 23);
+		frame.getContentPane().add(rdbtnDancing);
+
+		JRadioButton rdbtnCycling = new JRadioButton("Cycling");
+		rdbtnCycling.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cb = new CaloriesBurned(cycling, (int) spinner.getValue());
+			}
+		});
+		rdbtnCycling.setBounds(129, 130, 109, 23);
+		frame.getContentPane().add(rdbtnCycling);
+
+		JRadioButton rdbtnLightRunning = new JRadioButton("Light running");
+		rdbtnLightRunning.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cb = new CaloriesBurned(lightrun, (int) spinner.getValue());
+			}
+		});
+		rdbtnLightRunning.setBounds(6, 56, 109, 23);
+		frame.getContentPane().add(rdbtnLightRunning);
+
+		JRadioButton rdbtnFastRunning = new JRadioButton("Fast running");
+		rdbtnFastRunning.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cb = new CaloriesBurned(hardrun, (int) spinner.getValue());
+			}
+		});
+		rdbtnFastRunning.setBounds(6, 82, 109, 23);
+		frame.getContentPane().add(rdbtnFastRunning);
+
+		JRadioButton rdbtnWalking = new JRadioButton("Walking");
+		rdbtnWalking.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cb = new CaloriesBurned(walking, (int) spinner.getValue());
+			}
+		});
+		rdbtnWalking.setBounds(6, 156, 109, 23);
+		frame.getContentPane().add(rdbtnWalking);
+
+		ButtonGroup exgroup = new ButtonGroup();
+		exgroup.add(rdbtnWalking);
+		exgroup.add(rdbtnFastRunning);
+		exgroup.add(rdbtnLightRunning);
+		exgroup.add(rdbtnCycling);
+		exgroup.add(rdbtnDancing);
+		exgroup.add(rdbtnSleeping);
+		exgroup.add(rdbtnSwimming);
+		exgroup.add(rdbtnPlayingActiveSport);
+		exgroup.add(rdbtnAerobics);
+		exgroup.add(rdbtnNewRadioButton);
+
+		btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try (FileWriter writer = new FileWriter(
+						"D:\\oop\\Новая папка\\SportRes\\Calories", false)) {
+					if (rdbtnAerobics.isSelected()) {
+						writer.write(exercise[2] + Double.toString(cb.get())
+								+ '\n');
+					} else if (rdbtnLightRunning.isSelected()) {
+						writer.write(exercise[0] + Double.toString(cb.get())
+								+ '\n');
+					} else if (rdbtnFastRunning.isSelected()) {
+						writer.write(exercise[1] + Double.toString(cb.get())
+								+ '\n');
+					} else if (rdbtnSwimming.isSelected()) {
+						writer.write(exercise[3] + Double.toString(cb.get())
+								+ '\n');
+					} else if (rdbtnWalking.isSelected()) {
+						writer.write(exercise[4] + Double.toString(cb.get())
+								+ '\n');
+					} else if (rdbtnSleeping.isSelected()) {
+						writer.write(exercise[5] + Double.toString(cb.get())
+								+ '\n');
+					} else if (rdbtnNewRadioButton.isSelected()) {
+						writer.write(exercise[6] + Double.toString(cb.get())
+								+ '\n');
+					} else if (rdbtnPlayingActiveSport.isSelected()) {
+						writer.write(exercise[7] + Double.toString(cb.get())
+								+ '\n');
+					} else if (rdbtnCycling.isSelected()) {
+						writer.write(exercise[8] + Double.toString(cb.get())
+								+ '\n');
+					} else if (rdbtnDancing.isSelected()) {
+						writer.write(exercise[9] + Double.toString(cb.get())
+								+ '\n');
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnAdd.setBounds(164, 238, 89, 23);
+		frame.getContentPane().add(btnAdd);
+	}
+
+}
