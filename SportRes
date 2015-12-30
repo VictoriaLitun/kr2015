@@ -1,0 +1,327 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import java.awt.GridLayout;
+
+import javax.swing.ButtonGroup;
+import javax.swing.SwingConstants;
+import javax.swing.JRadioButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import javax.swing.JButton;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import javax.swing.JTextPane;
+
+public class SportRes {
+
+	private JFrame frame;
+	private JTextField userheight;
+	private JTextField userweight;
+	private JTextField txtCcalsPerDay;
+	private JTextField usercal;
+	private JTextField txtHeight;
+	private JTextField txtWeight;
+	private JRadioButton looseweight;
+	private JRadioButton saveweight;
+	private JTextField userage;
+	private JTextField txtAge;
+	private JRadioButton female;
+	private JRadioButton male;
+	final int malecof = 5;
+	final int femalecof = -161;
+	final double loosecof = 1.2;
+	final double savecof = 1.550;
+	CaloriesNorm caloriesnorm;
+	private JPanel changemonthpanel;
+	private JButton prevbutton;
+	private JButton nextbutton;
+	private JTextField monthtextfield;
+
+	Calendar C = new GregorianCalendar();
+	DateFormat df = new SimpleDateFormat("MMM dd, yyyy");
+	private JPanel panel;
+	private JButton exercises;
+	private JButton food;
+	private JTextPane textPane;
+	private JButton updateEx;
+	private JButton updateFood;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SportRes window = new SportRes();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	void showCallories() {
+		if (male.isSelected()) {
+			if (looseweight.isSelected()) {
+				caloriesnorm = new CaloriesNorm(Double.parseDouble(userweight
+						.getText()), Double.parseDouble(userheight.getText()),
+						Double.parseDouble(userage.getText()), malecof,
+						loosecof);
+			} else if (saveweight.isSelected()) {
+				caloriesnorm = new CaloriesNorm(Double.parseDouble(userweight
+						.getText()), Double.parseDouble(userheight.getText()),
+						Double.parseDouble(userage.getText()), malecof, savecof);
+			}
+		} else if (female.isSelected()) {
+			if (looseweight.isSelected()) {
+				caloriesnorm = new CaloriesNorm(Double.parseDouble(userweight
+						.getText()), Double.parseDouble(userheight.getText()),
+						Double.parseDouble(userage.getText()), femalecof,
+						loosecof);
+			} else if (saveweight.isSelected()) {
+				caloriesnorm = new CaloriesNorm(Double.parseDouble(userweight
+						.getText()), Double.parseDouble(userheight.getText()),
+						Double.parseDouble(userage.getText()), femalecof,
+						savecof);
+			}
+		}
+		if (caloriesnorm != null)
+			usercal.setText(Double.toString(caloriesnorm.get()));
+	}
+
+	public SportRes() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 600, 400);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+
+		JPanel calperdaypanel = new JPanel();
+		frame.getContentPane().add(calperdaypanel, BorderLayout.NORTH);
+		calperdaypanel.setLayout(new GridLayout(2, 0, 0, 0));
+
+		txtHeight = new JTextField();
+		txtHeight.setToolTipText("in cm");
+		txtHeight.setHorizontalAlignment(SwingConstants.CENTER);
+		txtHeight.setText("Height");
+		txtHeight.setEditable(false);
+		calperdaypanel.add(txtHeight);
+		txtHeight.setColumns(10);
+
+		txtWeight = new JTextField();
+		txtWeight.setToolTipText("in kg");
+		txtWeight.setHorizontalAlignment(SwingConstants.CENTER);
+		txtWeight.setText("Weight");
+		txtWeight.setEditable(false);
+		calperdaypanel.add(txtWeight);
+		txtWeight.setColumns(10);
+
+		ButtonGroup weightgroup = new ButtonGroup();
+		ButtonGroup gendergroup = new ButtonGroup();
+
+		txtAge = new JTextField();
+		txtAge.setEditable(false);
+		txtAge.setHorizontalAlignment(SwingConstants.CENTER);
+		txtAge.setText("Age");
+		calperdaypanel.add(txtAge);
+		txtAge.setColumns(10);
+
+		female = new JRadioButton("Female");
+		female.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		calperdaypanel.add(female);
+		gendergroup.add(female);
+
+		looseweight = new JRadioButton("Loose weight");
+		looseweight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		calperdaypanel.add(looseweight);
+		weightgroup.add(looseweight);
+
+		txtCcalsPerDay = new JTextField();
+		txtCcalsPerDay.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCcalsPerDay.setText("ccals per day:");
+		txtCcalsPerDay.setEditable(false);
+		calperdaypanel.add(txtCcalsPerDay);
+		txtCcalsPerDay.setColumns(10);
+
+		userheight = new JTextField();
+		userheight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		userheight.setHorizontalAlignment(SwingConstants.CENTER);
+		calperdaypanel.add(userheight);
+		userheight.setColumns(10);
+
+		userweight = new JTextField();
+		userweight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		userweight.setHorizontalAlignment(SwingConstants.CENTER);
+		calperdaypanel.add(userweight);
+		userweight.setColumns(10);
+
+		userage = new JTextField();
+		userage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		userage.setHorizontalAlignment(SwingConstants.CENTER);
+		calperdaypanel.add(userage);
+		userage.setColumns(10);
+
+		male = new JRadioButton("Male");
+		male.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		calperdaypanel.add(male);
+		gendergroup.add(male);
+
+		saveweight = new JRadioButton("Save weight");
+		saveweight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showCallories();
+			}
+		});
+		calperdaypanel.add(saveweight);
+		weightgroup.add(saveweight);
+
+		usercal = new JTextField();
+		usercal.setHorizontalAlignment(SwingConstants.CENTER);
+		usercal.setEditable(false);
+		calperdaypanel.add(usercal);
+		usercal.setColumns(10);
+
+		changemonthpanel = new JPanel();
+		frame.getContentPane().add(changemonthpanel, BorderLayout.SOUTH);
+		changemonthpanel.setLayout(new BorderLayout(0, 0));
+
+		prevbutton = new JButton("<<<");
+		prevbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				C.add(Calendar.DAY_OF_YEAR, -1);
+				monthtextfield.setText(df.format(C.getTime()));
+			}
+		});
+		changemonthpanel.add(prevbutton, BorderLayout.WEST);
+
+		nextbutton = new JButton(">>>");
+		nextbutton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				C.add(Calendar.DAY_OF_YEAR, 1);
+				monthtextfield.setText(df.format(C.getTime()));
+			}
+		});
+		changemonthpanel.add(nextbutton, BorderLayout.EAST);
+
+		monthtextfield = new JTextField();
+
+		monthtextfield.setHorizontalAlignment(SwingConstants.CENTER);
+		monthtextfield.setEditable(false);
+		changemonthpanel.add(monthtextfield, BorderLayout.CENTER);
+		monthtextfield.setColumns(10);
+
+		monthtextfield.setText(df.format(C.getTime()));
+
+		panel = new JPanel();
+		frame.getContentPane().add(panel, BorderLayout.WEST);
+		panel.setLayout(new GridLayout(0, 1, 0, 0));
+
+		food = new JButton("ADD FOOD");
+		food.addActionListener(new ActionListener() {
+			@SuppressWarnings("static-access")
+			public void actionPerformed(ActionEvent arg0) {
+				Food food = new Food();
+				food.main(null);
+			}
+		});
+		panel.add(food);
+
+		exercises = new JButton("ADD EXERCISES");
+		exercises.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				@SuppressWarnings("unused")
+				Exercises exercises = new Exercises();
+				Exercises.main(null);
+			}
+		});
+
+		updateFood = new JButton("update information <FOOD>");
+		updateFood.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try (FileReader reader = new FileReader(
+						"D:\\oop\\Новая папка\\SportRes\\FoodCal")) {
+					char[] buffer = new char[100];
+					reader.read(buffer);
+					String s = String.copyValueOf(buffer);
+					textPane.setText(textPane.getText() + '\n' + s);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		panel.add(updateFood);
+		panel.add(exercises);
+
+		updateEx = new JButton("update information <EXERCISES>");
+		updateEx.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try (FileReader reader = new FileReader(
+						"D:\\oop\\Новая папка\\SportRes\\Calories")) {
+					char[] buffer = new char[100];
+					reader.read(buffer);
+					String s = String.copyValueOf(buffer);
+					textPane.setText(textPane.getText() + '\n' + s);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		panel.add(updateEx);
+
+		textPane = new JTextPane();
+		frame.getContentPane().add(textPane, BorderLayout.CENTER);
+	}
+
+}
