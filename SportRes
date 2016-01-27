@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import java.awt.GridLayout;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 
@@ -22,8 +23,10 @@ import java.util.GregorianCalendar;
 
 import javax.swing.JButton;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JTextPane;
@@ -61,6 +64,8 @@ public class SportRes {
 	private JTextPane textPane;
 	private JButton updateEx;
 	private JButton updateFood;
+	private JButton saveButton;
+	private JScrollPane scroll;
 
 	/**
 	 * Launch the application.
@@ -238,6 +243,7 @@ public class SportRes {
 			public void actionPerformed(ActionEvent e) {
 				C.add(Calendar.DAY_OF_YEAR, -1);
 				monthtextfield.setText(df.format(C.getTime()));
+				updateMain();
 			}
 		});
 		changemonthpanel.add(prevbutton, BorderLayout.WEST);
@@ -247,6 +253,7 @@ public class SportRes {
 			public void actionPerformed(ActionEvent e) {
 				C.add(Calendar.DAY_OF_YEAR, 1);
 				monthtextfield.setText(df.format(C.getTime()));
+				updateMain();
 			}
 		});
 		changemonthpanel.add(nextbutton, BorderLayout.EAST);
@@ -286,11 +293,9 @@ public class SportRes {
 		updateFood = new JButton("update information <FOOD>");
 		updateFood.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try (FileReader reader = new FileReader(
-						"D:\\oop\\Новая папка\\SportRes\\FoodCal")) {
-					char[] buffer = new char[100];
-					reader.read(buffer);
-					String s = String.copyValueOf(buffer);
+				try (BufferedReader reader = new BufferedReader(new FileReader(
+						"D:\\oop\\Новая папка\\SportRes\\FoodCal"))) {
+					String s = reader.readLine();
 					textPane.setText(textPane.getText() + '\n' + s);
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
@@ -305,11 +310,9 @@ public class SportRes {
 		updateEx = new JButton("update information <EXERCISES>");
 		updateEx.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try (FileReader reader = new FileReader(
-						"D:\\oop\\Новая папка\\SportRes\\Calories")) {
-					char[] buffer = new char[100];
-					reader.read(buffer);
-					String s = String.copyValueOf(buffer);
+				try (BufferedReader reader = new BufferedReader(new FileReader(
+						"D:\\oop\\Новая папка\\SportRes\\Calories"))) {
+					String s = reader.readLine();
 					textPane.setText(textPane.getText() + '\n' + s);
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
@@ -321,7 +324,55 @@ public class SportRes {
 		panel.add(updateEx);
 
 		textPane = new JTextPane();
-		frame.getContentPane().add(textPane, BorderLayout.CENTER);
+		scroll = new JScrollPane(textPane);
+		frame.getContentPane().add(scroll, BorderLayout.CENTER);
+		updateMain();
+
+		saveButton = new JButton("Save Results");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try (FileWriter writer = new FileWriter(
+						"D:\\oop\\Новая папка\\SportRes\\MainField", true)) {
+					writer.write(monthtextfield.getText() + '\n'
+							+ textPane.getText() + '\n' + '@' + '\n');
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		frame.getContentPane().add(saveButton, BorderLayout.EAST);
+
 	}
 
+	void updateMain() {
+		textPane.setText("");
+		try (BufferedReader reader = new BufferedReader(new FileReader(
+				"D:\\oop\\Новая папка\\SportRes\\MainField"))) {
+			String buffer;
+			String[] s = new String[100];
+			while (true) {
+				buffer = reader.readLine();
+				if (buffer != null
+						&& buffer.contentEquals(monthtextfield.getText())) {
+					int i = 0;
+					buffer = reader.readLine();
+					while (!buffer.contains("@")) {
+						s[i] = buffer;
+						buffer = reader.readLine();
+						i++;
+					}
+				}
+				if (buffer == null) {
+					break;
+				}
+			}
+			for (int i = 0; i < 100; i++) {
+				if (s[i] != null) {
+					textPane.setText(textPane.getText() + s[i] + '\n');
+				}
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
 }
