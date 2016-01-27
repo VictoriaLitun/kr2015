@@ -1,10 +1,8 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-
 import javax.swing.JTextField;
 import javax.swing.JPanel;
-
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
@@ -23,7 +21,6 @@ public class Food {
 	private JTextField txtCaloricContent;
 	private JTextField txtAmountG;
 	public JButton btnNewButton;
-	double foodcal;
 
 	/**
 	 * Launch the application.
@@ -117,10 +114,12 @@ public class Food {
 									* Double.parseDouble(textField_1.getText())
 									* Double.parseDouble(textField_2.getText()))
 							+ '\n');
+
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 
+				frame.dispose();
 			}
 		});
 		btnNewButton.setBounds(167, 238, 89, 23);
