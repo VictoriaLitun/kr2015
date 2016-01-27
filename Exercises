@@ -1,7 +1,6 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JSpinner;
 import javax.swing.ButtonGroup;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -33,6 +32,7 @@ public class Exercises {
 	public final double cycling = 8.5;
 	public final double dancing = 5.1;
 	public JButton btnAdd;
+	private JTextField timeField;
 
 	/**
 	 * Launch the application.
@@ -67,10 +67,6 @@ public class Exercises {
 		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
 
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(290, 107, 49, 20);
-		frame.getContentPane().add(spinner);
-
 		txtChooseActivity = new JTextField();
 		txtChooseActivity.setEditable(false);
 		txtChooseActivity.setHorizontalAlignment(SwingConstants.CENTER);
@@ -87,21 +83,22 @@ public class Exercises {
 		frame.getContentPane().add(txtAdjustTime);
 		txtAdjustTime.setColumns(10);
 
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Having a rest");
-		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+		JRadioButton rdbtnRest = new JRadioButton("Having a rest");
+		rdbtnRest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cb = new CaloriesBurned(doingnothing, (int) spinner.getValue());
+				cb = new CaloriesBurned(doingnothing, (int) Double
+						.parseDouble(timeField.getText()));
 			}
 		});
-		rdbtnNewRadioButton
-				.setToolTipText("(e.g. sitting, laying, watching TV etc.)");
-		rdbtnNewRadioButton.setBounds(129, 82, 109, 23);
-		frame.getContentPane().add(rdbtnNewRadioButton);
+		rdbtnRest.setToolTipText("(e.g. sitting, laying, watching TV etc.)");
+		rdbtnRest.setBounds(129, 82, 109, 23);
+		frame.getContentPane().add(rdbtnRest);
 
 		JRadioButton rdbtnAerobics = new JRadioButton("Aerobics");
 		rdbtnAerobics.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cb = new CaloriesBurned(aerobics, (int) spinner.getValue());
+				cb = new CaloriesBurned(aerobics, (int) Double
+						.parseDouble(timeField.getText()));
 			}
 		});
 		rdbtnAerobics.setBounds(6, 106, 109, 23);
@@ -110,7 +107,8 @@ public class Exercises {
 		JRadioButton rdbtnPlayingActiveSport = new JRadioButton("Sport games");
 		rdbtnPlayingActiveSport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cb = new CaloriesBurned(activesport, (int) spinner.getValue());
+				cb = new CaloriesBurned(activesport, (int) Double
+						.parseDouble(timeField.getText()));
 			}
 		});
 		rdbtnPlayingActiveSport
@@ -121,7 +119,8 @@ public class Exercises {
 		JRadioButton rdbtnSwimming = new JRadioButton("Swimming");
 		rdbtnSwimming.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cb = new CaloriesBurned(swimming, (int) spinner.getValue());
+				cb = new CaloriesBurned(swimming, (int) Double
+						.parseDouble(timeField.getText()));
 			}
 		});
 		rdbtnSwimming.setBounds(6, 130, 109, 23);
@@ -130,7 +129,8 @@ public class Exercises {
 		JRadioButton rdbtnSleeping = new JRadioButton("Sleeping");
 		rdbtnSleeping.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cb = new CaloriesBurned(sleeping, (int) spinner.getValue());
+				cb = new CaloriesBurned(sleeping, (int) Double
+						.parseDouble(timeField.getText()));
 			}
 		});
 		rdbtnSleeping.setBounds(129, 56, 109, 23);
@@ -139,7 +139,8 @@ public class Exercises {
 		JRadioButton rdbtnDancing = new JRadioButton("Dancing");
 		rdbtnDancing.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cb = new CaloriesBurned(dancing, (int) spinner.getValue());
+				cb = new CaloriesBurned(dancing, (int) Double
+						.parseDouble(timeField.getText()));
 			}
 		});
 		rdbtnDancing.setBounds(129, 156, 109, 23);
@@ -148,7 +149,8 @@ public class Exercises {
 		JRadioButton rdbtnCycling = new JRadioButton("Cycling");
 		rdbtnCycling.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cb = new CaloriesBurned(cycling, (int) spinner.getValue());
+				cb = new CaloriesBurned(cycling, (int) Double
+						.parseDouble(timeField.getText()));
 			}
 		});
 		rdbtnCycling.setBounds(129, 130, 109, 23);
@@ -157,7 +159,8 @@ public class Exercises {
 		JRadioButton rdbtnLightRunning = new JRadioButton("Light running");
 		rdbtnLightRunning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cb = new CaloriesBurned(lightrun, (int) spinner.getValue());
+				cb = new CaloriesBurned(lightrun, (int) Double
+						.parseDouble(timeField.getText()));
 			}
 		});
 		rdbtnLightRunning.setBounds(6, 56, 109, 23);
@@ -166,7 +169,8 @@ public class Exercises {
 		JRadioButton rdbtnFastRunning = new JRadioButton("Fast running");
 		rdbtnFastRunning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cb = new CaloriesBurned(hardrun, (int) spinner.getValue());
+				cb = new CaloriesBurned(hardrun, (int) Double
+						.parseDouble(timeField.getText()));
 			}
 		});
 		rdbtnFastRunning.setBounds(6, 82, 109, 23);
@@ -175,7 +179,8 @@ public class Exercises {
 		JRadioButton rdbtnWalking = new JRadioButton("Walking");
 		rdbtnWalking.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cb = new CaloriesBurned(walking, (int) spinner.getValue());
+				cb = new CaloriesBurned(walking, (int) Double
+						.parseDouble(timeField.getText()));
 			}
 		});
 		rdbtnWalking.setBounds(6, 156, 109, 23);
@@ -191,7 +196,7 @@ public class Exercises {
 		exgroup.add(rdbtnSwimming);
 		exgroup.add(rdbtnPlayingActiveSport);
 		exgroup.add(rdbtnAerobics);
-		exgroup.add(rdbtnNewRadioButton);
+		exgroup.add(rdbtnRest);
 
 		btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
@@ -216,7 +221,7 @@ public class Exercises {
 					} else if (rdbtnSleeping.isSelected()) {
 						writer.write(exercise[5] + Double.toString(cb.get())
 								+ '\n');
-					} else if (rdbtnNewRadioButton.isSelected()) {
+					} else if (rdbtnRest.isSelected()) {
 						writer.write(exercise[6] + Double.toString(cb.get())
 								+ '\n');
 					} else if (rdbtnPlayingActiveSport.isSelected()) {
@@ -233,10 +238,51 @@ public class Exercises {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				frame.dispose();
 			}
 		});
 		btnAdd.setBounds(164, 238, 89, 23);
 		frame.getContentPane().add(btnAdd);
-	}
 
+		timeField = new JTextField();
+		timeField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (rdbtnAerobics.isSelected()) {
+					cb = new CaloriesBurned(aerobics, (int) Double
+							.parseDouble(timeField.getText()));
+				} else if (rdbtnLightRunning.isSelected()) {
+					cb = new CaloriesBurned(lightrun, (int) Double
+							.parseDouble(timeField.getText()));
+				} else if (rdbtnFastRunning.isSelected()) {
+					cb = new CaloriesBurned(hardrun, (int) Double
+							.parseDouble(timeField.getText()));
+				} else if (rdbtnSwimming.isSelected()) {
+					cb = new CaloriesBurned(swimming, (int) Double
+							.parseDouble(timeField.getText()));
+				} else if (rdbtnWalking.isSelected()) {
+					cb = new CaloriesBurned(walking, (int) Double
+							.parseDouble(timeField.getText()));
+				} else if (rdbtnSleeping.isSelected()) {
+					cb = new CaloriesBurned(sleeping, (int) Double
+							.parseDouble(timeField.getText()));
+				} else if (rdbtnRest.isSelected()) {
+					cb = new CaloriesBurned(doingnothing, (int) Double
+							.parseDouble(timeField.getText()));
+				} else if (rdbtnPlayingActiveSport.isSelected()) {
+					cb = new CaloriesBurned(activesport, (int) Double
+							.parseDouble(timeField.getText()));
+				} else if (rdbtnCycling.isSelected()) {
+					cb = new CaloriesBurned(cycling, (int) Double
+							.parseDouble(timeField.getText()));
+				} else if (rdbtnDancing.isSelected()) {
+					cb = new CaloriesBurned(dancing, (int) Double
+							.parseDouble(timeField.getText()));
+				}
+
+			}
+		});
+		timeField.setBounds(290, 107, 86, 20);
+		frame.getContentPane().add(timeField);
+		timeField.setColumns(10);
+	}
 }
